@@ -9,11 +9,25 @@ $(document).ready(function () {
 		if (currentDay.hotel) {
 			currentDay.hotel.delete();
 		}
-		this.buildMarker()
-			.drawMarker()
-			.buildItineraryItem()
-			.drawItineraryItem();
+
+
+
 		currentDay.hotel = this;
+
+
+		$.ajax({
+		    type: 'post',
+		    url: '/days/' + currentDay.number + '/hotel',
+		    dataType: 'json',
+		    data: {name: self.name},
+		    success: function (responseData) {
+		    	self.buildMarker()
+					.drawMarker()
+					.buildItineraryItem()
+					.drawItineraryItem();
+		        console.log(responseData);
+		    },
+		});
 	}
 
 	Hotel.prototype = generateAttraction({
