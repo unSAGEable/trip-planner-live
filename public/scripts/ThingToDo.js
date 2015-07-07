@@ -2,7 +2,7 @@ var ThingToDo;
 
 $(document).ready(function () {
 	// thing to do constructor
-	ThingToDo = function (data) {
+	ThingToDo = function (data, onStart) {
 		var self = this;
 		eachKeyValue(data, function (key, val) {
 			self[key] = val;
@@ -12,6 +12,19 @@ $(document).ready(function () {
 			.buildItineraryItem()
 			.drawItineraryItem();
 		currentDay.thingsToDo.push(this);
+
+		if(!onStart){
+			$.ajax({
+			    type: 'post',
+			    url: '/days/' + currentDay.number + '/thingsToDo',
+			    dataType: 'json',
+			    data: {name: self.name},
+			    success: function (responseData) {
+			        console.log(responseData);
+			    },
+			});
+		}
+
 	}
 
 	ThingToDo.prototype = generateAttraction({
@@ -28,5 +41,14 @@ $(document).ready(function () {
 		removed
 			.eraseMarker()
 			.eraseItineraryItem();
+
+		$.ajax({
+		    type: 'delete',
+		    url: '/days/' + currentDay.number + '/thingsToDo/' + index,
+		    dataType: 'json',
+		    success: function (responseData) {
+		        console.log(responseData);
+		    },
+		});
 	};
 });

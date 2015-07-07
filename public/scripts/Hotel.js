@@ -1,7 +1,7 @@
 var Hotel;
 
 $(document).ready(function () {
-	Hotel = function (data) {
+	Hotel = function (data, onStart) {
 		var self = this;
 		eachKeyValue(data, function (key, val) {
 			self[key] = val;
@@ -9,25 +9,26 @@ $(document).ready(function () {
 		if (currentDay.hotel) {
 			currentDay.hotel.delete();
 		}
-
+    	self.buildMarker()
+			.drawMarker()
+			.buildItineraryItem()
+			.drawItineraryItem();
 
 
 		currentDay.hotel = this;
 
+		if(!onStart){
+			$.ajax({
+			    type: 'post',
+			    url: '/days/' + currentDay.number + '/hotel',
+			    dataType: 'json',
+			    data: {name: self.name},
+			    success: function (responseData) {
 
-		$.ajax({
-		    type: 'post',
-		    url: '/days/' + currentDay.number + '/hotel',
-		    dataType: 'json',
-		    data: {name: self.name},
-		    success: function (responseData) {
-		    	self.buildMarker()
-					.drawMarker()
-					.buildItineraryItem()
-					.drawItineraryItem();
-		        console.log(responseData);
-		    },
-		});
+			        console.log(responseData);
+			    },
+			});
+		}
 	}
 
 	Hotel.prototype = generateAttraction({
@@ -43,5 +44,13 @@ $(document).ready(function () {
 			.eraseMarker()
 			.eraseItineraryItem();
 		currentDay.hotel = null;
+		$.ajax({
+		    type: 'delete',
+		    url: '/days/' + currentDay.number + '/hotel',
+		    dataType: 'json',
+		    success: function (responseData) {
+		        console.log(responseData);
+		    },
+		});
 	};
 });
