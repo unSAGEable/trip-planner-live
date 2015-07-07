@@ -1,25 +1,40 @@
-var router = require('express').Router();
+var dayRouter = require('express').Router();
+var attractionRouter = require('express').Router({mergeParams:true});
 var models = require('../models');
 
 // serves up all days
-router.get('/',
+dayRouter.get('/',
   function (req, res, next) {
     models.Day
       .find({})
-      .exec(function (err, days) {
-        res.locals.all_days = days;
-        next();
+      .exec()
+      .then(function(days){
+        res.json(days);
       });
 })
 
 // creates a new day and serves it up as json
-router.post('/',
+dayRouter.post('/',
   function (req, res, next) {
-    console.log('doing something');
+    var newDay = new models.Day();
+    newDay.number = req.body.number;
+    newDay.save(function(err, day){
+      if(err) return next(err);
+      console.log(day);
+      res.json(day);
+    })
+    
 })
 
+dayRouter.post('/delete',
+  function(req, res, next){
+    models.Day.collection.drop();
+    res.json('deleted');
+  })
+
+
 // serves particular day as json
-router.get('/:id',
+dayRouter.get('/:id',
   function (req, res, next) {
     models.Day
       .findById(req.params.id)
@@ -30,22 +45,37 @@ router.get('/:id',
 })
 
 // deletes a particular day
-router.delete('/:id',
+dayRouter.delete('/:id',
   function (req, res, next) {
     models.Day
-      .findById(req.params.id)
-      .remove(function(err,day){
-        next();
+      .find({number: parseInt(req.params.id)})
+      .remove(function(err,data){
+        if(err) return next(err);
+        res.json('removed');
       })
+
 })
-/*
-//router.use('/:id', attractionRouter);
+
+dayRouter.use('/:id', attractionRouter);
 
 // creates a reference to the hotel
 attractionRouter.post('/hotel', function (req, res, next) {
-    models.Hotel.create(req.body);
-    models.Hotel.save();
-    next();
+  // models.Hotel.find({name: req.body.name}, function(err, hotel){console.log(hotel)})
+  models.Hotel.find({name: req.body.name}, function(err, hotel){
+
+      models.Day.findOne(
+        {number: parseInt(req.params.id)},
+        // {hotel: hotel[0]},
+        function(err, data) {
+          if (err) next(err)
+          data.hotel = hotel[0];
+          data.save(function(err, data){
+            res.json(data)
+          })
+          
+      })
+    })
+    
 });
 
 // deletes the reference to the hotel
@@ -72,6 +102,6 @@ attractionRouter.post('/thingsToDo', function (req, res, next) {
 // deletes a reference to a thing to do
 attractionRouter.delete('/thingsToDo/:id', function (req, res, next) {
 });
-*/
 
-module.exports = router
+
+module.exports = dayRouter

@@ -77,16 +77,46 @@ $(document).ready(function () {
 
 	$('#add-day').on('click', function () {
 		var newDay = new Day();
+		var dayNumber = {};
+		dayNumber.number = newDay.number;
 
 		$.ajax({
-	  	method: 'POST',
-	    url: '/days',
-	    data: newDay,
-	    success: function (responseData) {
-	      console.log('created a new day');
-	    }
+		    type: 'post',
+		    url: '/days',
+		    dataType: 'json',
+		    data: dayNumber,
+		    success: function (responseData) {
+		        console.log(responseData);
+		    },
+		    error: function(err){
+		    	console.log(err);
+		    }
 		});
+
+		$.get('/days', function (data) {console.log('GET response data', data)})
 	});
 
-	$('#day-title > .remove').on('click', deleteCurrentDay);
+	$('#day-title > .remove').on('click', function(){
+		$.ajax({
+		    type: 'delete',
+		    url: '/days/'+ currentDay.number,
+		    success: function (responseData) {
+		    	deleteCurrentDay();
+		        console.log(responseData);
+		    }
+		});
+		$.post('/days/delete', function (data) {console.log('GET response data', data)})
+	});
 });
+
+
+
+
+
+
+
+
+
+
+
+
