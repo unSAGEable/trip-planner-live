@@ -6,11 +6,12 @@ var models = require('../models');
 dayRouter.get('/',
   function (req, res, next) {
     models.Day
-      .find({})
-      .exec()
-      .then(function(days){
-        res.json(days);
+      .find().populate('hotel restaurants thingsToDo')
+      .exec(function(err, popDay) {
+          // popDay now has objects in place of _id s!
+          res.json(popDay);
       });
+
 })
 
 // creates a new day and serves it up as json
@@ -26,10 +27,14 @@ dayRouter.post('/',
     
 })
 
-dayRouter.post('/delete',
+dayRouter.post('/reset',
   function(req, res, next){
     models.Day.collection.drop();
-    res.json('deleted');
+    var day1 = new models.Day({number:1, hotel: null})
+    day1.save(function(err,day){
+      res.json('deleted '+ day+ ' added');
+    })
+    
   })
 
 
@@ -79,28 +84,90 @@ attractionRouter.post('/hotel', function (req, res, next) {
 });
 
 // deletes the reference to the hotel
-// attractionRouter.delete('/hotel', function (req, res, next) {
-//     models.Day
-//       .findById(req.params.id)
-//       .remove(function(err,day){
-//           day.remove day.hotel;
-//       })
-// });
+attractionRouter.delete('/hotel', function (req, res, next) {
+    models.Day
+      .findOne(
+        {number: parseInt(req.params.id)},
+        // {hotel: hotel[0]},
+        function(err, data) {
+          if (err) next(err)
+          data.hotel = null;
+          data.save(function(err, data){
+            res.json(data)
+          })
+          
+      })
+});
 
 // creates a reference to the restaurant
 attractionRouter.post('/restaurants', function (req, res, next) {
+
+    models.Restaurant.find({name: req.body.name}, function(err, restaurant){
+
+      models.Day.findOne(
+        {number: parseInt(req.params.id)},
+        function(err, data) {
+          if (err) next(err)
+          data.restaurants.push(restaurant[0]);
+          data.save(function(err, data){
+            res.json(data)
+          })
+          
+      })
+    })
+
 });
 
 // deletes a reference to a restaurant
-attractionRouter.delete('/restaurant/:id', function (req, res, next) {
+attractionRouter.delete('/restaurant/:index', function (req, res, next) {
+      models.Day
+      .findOne(
+        {number: parseInt(req.params.id)},
+        function(err, data) {
+          if (err) next(err)
+          data.restaurants.splice(parseInt(req.params.index),1);
+          data.save(function(err, data){
+            res.json(data)
+          })
+          
+      })
+
 });
 
 // creates a reference to a thing to do
 attractionRouter.post('/thingsToDo', function (req, res, next) {
+
+    models.ThingToDo.find({name: req.body.name}, function(err, thingToDo){
+
+      models.Day.findOne(
+        {number: parseInt(req.params.id)},
+        function(err, data) {
+          if (err) next(err)
+          data.thingsToDo.push(thingToDo[0]);
+          data.save(function(err, data){
+            res.json(data)
+          })
+          
+      })
+    })
+
 });
 
 // deletes a reference to a thing to do
-attractionRouter.delete('/thingsToDo/:id', function (req, res, next) {
+attractionRouter.delete('/thingsToDo/:index', function (req, res, next) {
+
+      models.Day
+        .findOne(
+          {number: parseInt(req.params.id)},
+          function(err, data) {
+            if (err) next(err)
+            data.thingsToDo.splice(parseInt(req.params.index),1);
+            data.save(function(err, data){
+              res.json(data)
+            })
+            
+        })
+
 });
 
 

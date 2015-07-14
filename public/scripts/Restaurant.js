@@ -1,7 +1,7 @@
 var Restaurant;
 
 $(document).ready(function () {
-	Restaurant = function (data) {
+	Restaurant = function (data,onStart) {
 		var self = this;
 		eachKeyValue(data, function (key, val) {
 			self[key] = val;
@@ -11,6 +11,18 @@ $(document).ready(function () {
 			.buildItineraryItem()
 			.drawItineraryItem();
 		currentDay.restaurants.push(this);
+
+		if(!onStart){
+			$.ajax({
+			    type: 'post',
+			    url: '/days/' + currentDay.number + '/restaurants',
+			    dataType: 'json',
+			    data: {name: self.name},
+			    success: function (responseData) {
+			        console.log(responseData);
+			    },
+			});
+		}
 	}
 
 	Restaurant.prototype = generateAttraction({
@@ -27,5 +39,15 @@ $(document).ready(function () {
 		removed
 			.eraseMarker()
 			.eraseItineraryItem();
+
+
+		$.ajax({
+		    type: 'delete',
+		    url: '/days/' + currentDay.number + '/restaurant/' + index,
+		    dataType: 'json',
+		    success: function (responseData) {
+		        console.log(responseData);
+		    },
+		});
 	};
 });

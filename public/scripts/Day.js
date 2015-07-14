@@ -105,8 +105,18 @@ $(document).ready(function () {
 		        console.log(responseData);
 		    }
 		});
-		$.post('/days/delete', function (data) {console.log('GET response data', data)})
+		
 	});
+
+	$('#day-title > .reset').on('click', function(){
+		$.post('/days/reset', function (data) {
+			while(days.length !== 1){
+				deleteCurrentDay();
+			}
+			console.log(data)
+		})
+
+	})
 });
 
 
