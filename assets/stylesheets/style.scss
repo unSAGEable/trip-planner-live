@@ -1,24 +1,24 @@
 $light-blue: #a8c9dd;
-$medium-brown: #736357;
+$medium-gray: #47474A;
 $transparent: rgba(0,0,0,0);
 
 $screen-sm: 768px;
 
 body {
 	padding-top: 50px;
-	background: lighten($medium-brown, 32%);
+	background: #C3C4CB;
 	font-family: 'Varela Round', sans-serif;
 	min-width: -webkit-min-content;
 }
 
 #app {
-	border-left: 2px solid lighten($medium-brown, 25%);
-	border-right: 2px solid lighten($medium-brown, 25%);
+	border-left: 2px solid lighten($medium-gray, 25%);
+	border-right: 2px solid lighten($medium-gray, 25%);
 }
 
 .navbar-inverse {
-	background: $medium-brown;
-	border-color: darken($medium-brown, 10%);
+	background: $medium-gray;
+	border-color: darken($medium-gray, 10%);
 }
 
 .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand {
@@ -39,21 +39,21 @@ body {
 }
 
 .navbar-inverse .navbar-nav > .active > a {
-	box-shadow: inset 0 0 10px darken($medium-brown, 15%);
-	background: darken($medium-brown, 5%);
+	box-shadow: inset 0 0 10px darken($medium-gray, 15%);
+	background: darken($medium-gray, 5%);
 	color: lighten($light-blue, 10%);
 	&:hover {
-		background: darken($medium-brown, 10%);
-		box-shadow: inset 0 0 10px darken($medium-brown, 20%);
+		background: darken($medium-gray, 10%);
+		box-shadow: inset 0 0 10px darken($medium-gray, 20%);
 		color: #fff;
 	}
 }
 
 #map-canvas {
 	height: calc(100vh - 50px);
-	border-right: 2px solid lighten($medium-brown, 25%);
-	border-bottom: 2px solid lighten($medium-brown, 25%);
-	border-left: 2px solid lighten($medium-brown, 25%);
+	border-right: 2px solid lighten($medium-gray, 25%);
+	border-bottom: 2px solid lighten($medium-gray, 25%);
+	border-left: 2px solid lighten($medium-gray, 25%);
 }
 
 @media (min-width: $screen-sm) {
@@ -99,7 +99,7 @@ h4 {
 }
 
 h3 {
-	color: darken($medium-brown, 5%);
+	color: darken($medium-gray, 5%);
 	text-align: center;
 	margin-top: 0;
 }
@@ -128,7 +128,7 @@ h3 {
 	}
 	&.current-day {
 		background: $light-blue;
-		color: $medium-brown;
+		color: $medium-gray;
 		&:hover {
 			background: #fff;
 		}
@@ -136,12 +136,12 @@ h3 {
 }
 
 .panel-default {
-	background: lighten($medium-brown, 53%);
+	background: $medium-gray;
 	border-radius: 8px;
 	border-width: 0;
 	margin-bottom: 0;
 	.panel-heading {
-		background: $medium-brown;
+		background: $medium-gray;
 		border-radius: 8px 8px 0 0;
 	}
 	.panel-body {
@@ -170,7 +170,7 @@ h3 {
 #day-title {
 	display: inline-block;
 	padding: 5px;
-	border: 1px solid $medium-brown;
+	border: 1px solid $medium-gray;
 	border-radius: 5px;
 	> * {
 		display: inline-block;

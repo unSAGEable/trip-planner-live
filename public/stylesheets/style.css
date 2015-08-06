@@ -1,16 +1,16 @@
 body {
   padding-top: 50px;
-  background: #c1b5ad;
+  background: #C3C4CB;
   font-family: 'Varela Round', sans-serif;
   min-width: -webkit-min-content; }
 
 #app {
-  border-left: 2px solid #b1a398;
-  border-right: 2px solid #b1a398; }
+  border-left: 2px solid #86868b;
+  border-right: 2px solid #86868b; }
 
 .navbar-inverse {
-  background: #736357;
-  border-color: #564a41; }
+  background: #47474A;
+  border-color: #2e2e30; }
 
 .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-brand {
   color: #a8c9dd; }
@@ -26,19 +26,19 @@ body {
     vertical-align: middle; }
 
 .navbar-inverse .navbar-nav > .active > a {
-  box-shadow: inset 0 0 10px #473e36;
-  background: #64574c;
+  box-shadow: inset 0 0 10px #222223;
+  background: #3b3b3d;
   color: #cde0eb; }
   .navbar-inverse .navbar-nav > .active > a:hover {
-    background: #564a41;
-    box-shadow: inset 0 0 10px #39312b;
+    background: #2e2e30;
+    box-shadow: inset 0 0 10px #151516;
     color: #fff; }
 
 #map-canvas {
   height: calc(100vh - 50px);
-  border-right: 2px solid #b1a398;
-  border-bottom: 2px solid #b1a398;
-  border-left: 2px solid #b1a398; }
+  border-right: 2px solid #86868b;
+  border-bottom: 2px solid #86868b;
+  border-left: 2px solid #86868b; }
 
 @media (min-width: 768px) {
   #map-canvas {
@@ -73,7 +73,7 @@ h4 {
   margin-top: 0; }
 
 h3 {
-  color: #64574c;
+  color: #3b3b3d;
   text-align: center;
   margin-top: 0; }
 
@@ -99,17 +99,17 @@ h3 {
     color: #fff; }
   .day-btn.current-day {
     background: #a8c9dd;
-    color: #736357; }
+    color: #47474A; }
     .day-btn.current-day:hover {
       background: #fff; }
 
 .panel-default {
-  background: #efecea;
+  background: #47474A;
   border-radius: 8px;
   border-width: 0;
   margin-bottom: 0; }
   .panel-default .panel-heading {
-    background: #736357;
+    background: #47474A;
     border-radius: 8px 8px 0 0; }
   .panel-default .panel-body {
     padding: 5px 15px; }
@@ -130,7 +130,7 @@ h3 {
 #day-title {
   display: inline-block;
   padding: 5px;
-  border: 1px solid #736357;
+  border: 1px solid #47474A;
   border-radius: 5px; }
   #day-title > * {
     display: inline-block;
