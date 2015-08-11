@@ -138,5 +138,8 @@ h3 {
   #day-title > .remove {
     margin-left: 1em; }
 
+.list-group {
+  color: white; }
+
 .btn {
   outline: none !important; }
