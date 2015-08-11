@@ -1,11 +1,13 @@
 // This file should contain all the record creation needed to seed the database with its default values.
 // The data can then be loaded with the node seed.js 
- 
-var async = require('async'),
-    mongoose = require('mongoose');
-
-var models = require('./models');
-var Place = models.Place;
+var Promise = require("bluebird");
+var mongoose = Promise.promisifyAll(require("mongoose"));
+var chalk = require("chalk");
+var connectToDb = require("./main.js");
+var Hotel = Promise.promisifyAll(mongoose.model('Hotel'));
+var ThingToDo = Promise.promisifyAll(mongoose.model('ThingToDo'));
+var Restaurant = Promise.promisifyAll(mongoose.model('Restaurant'));
+var Place = mongoose.model('Place')
  
 var data = {
     Hotel: [
@@ -61,23 +63,17 @@ var data = {
     ]
 };
  
-mongoose.connection.on('open', function() {
-    mongoose.connection.db.dropDatabase(function() {
-        
-        console.log("Dropped old data, now inserting data");
-        async.each(Object.keys(data),
-            function(modelName, outerDone) {
-                async.each(data[modelName],
-                    function(d, innerDone) {
-                        models[modelName].create(d, innerDone);
-                    },
-                    outerDone
-                );
-            },
-            function(err) {
-                console.log("Finished inserting data");
-                console.log("Control-C to quit");
-            }
-        );
+connectToDb.then(function () {
+        return Hotel.createAsync(data.Hotel).then(function(){
+            return Restaurant.createAsync(data.Restaurant).then(function(){
+                return ThingToDo.createAsync(data.ThingToDo)
+            })
+        })
+    .then(function () {
+        console.log(chalk.green("Seed successful!"));
+        process.kill(0);
+    }).catch(function(err) {
+        console.error(err);
+        process.kill(1);
     });
 });
