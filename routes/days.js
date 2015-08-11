@@ -5,7 +5,7 @@ var models ={}
 models.Hotel = mongoose.model('Hotel')
 models.ThingToDo = mongoose.model('ThingToDo')
 models.Restaurant = mongoose.model('Restaurant')
-models.Restaurant = mongoose.model('Day')
+models.Day = mongoose.model('Day')
 
 // serves up all days
 dayRouter.get('/',
