@@ -1,6 +1,10 @@
 var dayRouter = require('express').Router();
 var attractionRouter = require('express').Router({mergeParams:true});
-var models = require('../models');
+var mongoose = require('mongoose');
+var models ={}
+models.Hotel = mongoose.model('Hotel')
+models.ThingToDo = mongoose.model('ThingToDo')
+models.Restaurant = mongoose.model('Restaurant')
 
 // serves up all days
 dayRouter.get('/',
