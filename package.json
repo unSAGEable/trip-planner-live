@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon main.js",
-    "postinstall": "./node_modules/bower/bin/bower install"
+    "postinstall": "./node_modules/bower/bin/bower install && gulp build"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +15,7 @@
     "body-parser": "^1.10.2",
     "chalk": "^1.1.0",
     "express": "^4.11.1",
+    "gulp": "^3.9.0",
     "io": "0.0.6",
     "mongoose": "^3.9.7",
     "morgan": "^1.5.1",
