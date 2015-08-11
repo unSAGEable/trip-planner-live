@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon main.js",
-    "postinstall": "./node_modules/bower/bin/bower install && gulp build"
+    "start": "nodemon main.js"
   },
   "author": "",
   "license": "ISC",
